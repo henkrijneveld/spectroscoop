@@ -50,7 +50,7 @@ class ColorImg:
         # definitions of intensity (in nm):
         # start at zero, max low, max high, end at zero
         violet = [0, 0, 350, 470] # actually red
-        blue = [0, 0, 483, 560]
+        blue = [0, 0, 483, 590]
         green = [420, 497, 608, 710]
         red = [520, 612, 780, 0]
 
@@ -65,7 +65,7 @@ class ColorImg:
         correction = self._getIntensity(wavelength, intensity, lowintensity)
 
         # color correction for non linerarities
-        gamma = 0.8
+        gamma = 0.6
         R = self._getGammaCorrection(R, correction, gamma)
         G = self._getGammaCorrection(G, correction, gamma)
         B = self._getGammaCorrection(B, correction, gamma)
