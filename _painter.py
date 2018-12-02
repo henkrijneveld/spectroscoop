@@ -1,50 +1,46 @@
 import numpy as np
 import cv2
+import _spectrum
 
-
-class ColorImg:
-    def __init__(self):
-        self.spectrum = []
-        self.wavelengths = []
-        self.normalized = []
-        self.color = {}
-
-    def setSpectrum(self, spectrum):
+class Painter:
+    def __init__(self, spectrum, pixelheight = 200):
         self.spectrum = spectrum
-        self.normalizeIntensity()
+        self.height = pixelheight # height of image in pixels
 
-    def setColor(self, color):
-        self.color = color
-        self.makeWavelengths()
+    def paintNormal(self):
+        w, c, z = self.spectrum.getCookedSpectrum()
+        self._paint(w, c)
 
-    def normalizeIntensity(self):
-        m = max(self.spectrum)
-        self.normalized = np.array([i / m for i in self.spectrum])
+    def paintZoomed(self):
+        w, c, z = self.spectrum.getCookedSpectrum()
+        self._paint(w, z)
 
-    def makeWavelengths(self):
-        if len(self.color) < 2:
-            print("Colorarray missing")
-            exit(-1)
-        keys = list(self.color.keys())
-        values = list(self.color.values())
-        keys = np.array([float(i) for i in keys])
-        values = np.array([float(i) for i in values])
-        coef, offset = np.polyfit(keys, values, 1)
-        self.wavelengths = np.zeros(len(self.spectrum))
-        for i in range(0, len(self.wavelengths)):
-            self.wavelengths[i] = coef * i + offset
+    def savePainting(self, zoomed = False):
+        w, c, z = self.spectrum.getCookedSpectrum()
 
-    def showImg(self):
-        img = np.zeros(shape=(200, len(self.spectrum)), dtype=('u1', 3))
-        for i in range(0, len(self.spectrum)):
-            reductie = self.normalized[i]
-            color = self.wav2RGB(self.wavelengths[i], reductie)
-            for k in range(0, 200):
-                img[k, i] = color
-        cv2.imshow("Spectrum", img)
+        fname = "spectra/" + self.spectrum.getName() + "-color"
+        if zoomed:
+            img = self._makepaint(w, z)
+            fname = fname + "-zoomed"
+        else:
+            img = self._makepaint(w, c)
+        fname = fname + ".png"
+        cv2.imwrite(fname, img)
+
+    def _paint(self, wave, intensity):
+        img = self._makepaint(wave, intensity)
+        cv2.imshow(self.spectrum.getName(), img)
         cv2.waitKey(0)
-        cv2.destroyWindow("Spectrum")
-        pass
+        cv2.destroyWindow(self.spectrum.getName())
+
+    def _makepaint(self, wave, intensity):
+        img = np.zeros(shape=(self.height, len(wave)), dtype=('u1', 3))
+        for i in range(0, len(wave)):
+            reductie = intensity[i]
+            color = self.wav2RGB(wave[i], reductie)
+            for k in range(0, self.height):
+                img[k, i] = color
+        return img
 
     def wav2RGB(self, wavelength, reduction = 1.0):
         # definitions of intensity (in nm):
@@ -99,19 +95,5 @@ class ColorImg:
         if (wavelength < intensity[3]):
             return (intensity[3] - wavelength) / (intensity[3] - intensity[2])
         return 0.
-
-if __name__ == '__main__':
-    spectrum = np.full(600, 100)
-
-    changes = [125]
-    changespos = 20
-    for i in range(changespos, changespos + len(changes)):
-       spectrum[i] = changes[i - changespos]
-    color = { '200': '490', '320': '580'}
-
-    cimg = ColorImg()
-    cimg.setSpectrum(spectrum)
-    cimg.setColor(color)
-    cimg.showImg()
 
 
