@@ -22,10 +22,14 @@ class Spectrum:
 
     def setSpectrumimg(self, img):
         self.dirty = True
-        self.spectrumimg = img
+        height, width = img.shape[:2]
+        self.spectrumimg = np.zeros((height, width, 3), dtype = int)
+        self.spectrumimg += img
 
     def mergeSpectrumimg(self, img):
         self.dirty = True
+        if self.spectrumimg is None:
+            raise ValueError("Trying to merge to uninitialized image")
         self.spectrumimg += img
 
     def getSpectrumimg(self):

@@ -52,7 +52,7 @@ class Painter:
         violet = [0, 0, 350, 470] # actually red
         blue = [0, 0, 483, 590]
         green = [420, 497, 608, 710]
-        red = [520, 612, 780, 0]
+        red = [520, 612, 780, 1200]
 
         R = self._getValue(wavelength, violet) + self._getValue(wavelength, red)
         G = self._getValue(wavelength, green)
@@ -61,7 +61,7 @@ class Painter:
         # general intensity correction
         # lowintensity -> 1 -> 1 -> lowintensity
         lowintensity = 0.3
-        intensity = [350, 420, 680, 780]
+        intensity = [300, 400, 700, 830]
         correction = self._getIntensity(wavelength, intensity, lowintensity)
 
         # color correction for non linerarities
