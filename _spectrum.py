@@ -24,6 +24,10 @@ class Spectrum:
         self.dirty = True
         self.spectrumimg = img
 
+    def mergeSpectrumimg(self, img):
+        self.dirty = True
+        self.spectrumimg += img
+
     def getSpectrumimg(self):
         return(self.spectrumimg)
 

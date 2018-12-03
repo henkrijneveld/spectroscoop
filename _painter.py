@@ -27,6 +27,10 @@ class Painter:
         fname = fname + ".png"
         cv2.imwrite(fname, img)
 
+    def saveRawInput(self):
+        fname = "spectra/" + self.spectrum.getName() + "-rawinput.png"
+        cv2.imwrite(fname, self.spectrum.getSpectrumimg())
+
     def _paint(self, wave, intensity):
         img = self._makepaint(wave, intensity)
         cv2.imshow(self.spectrum.getName(), img)

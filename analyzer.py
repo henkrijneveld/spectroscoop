@@ -9,9 +9,9 @@ from _collapser import Collapser
 
 
 def run():
-    s = Spectrum("geleled")
+    s = Spectrum("kunstlicht-multicap")
 
-    Capturer(s).capture()
+    Capturer(s).capture(5) # multicapture parameter
 
     Collapser(s).collapse()
 
@@ -22,6 +22,7 @@ def run():
     i = Painter(s)
     i.paintNormal()
     i.savePainting()
+    i.saveRawInput()
 
 
 

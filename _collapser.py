@@ -48,7 +48,7 @@ class Collapser:
         # due to the threshold we eliminate noise
         signalmin = min(firstrow)
         signalmax = max(firstrow)
-        signalThreshold = signalmin + (signalmax - signalmin) / 2
+        signalThreshold = signalmin + (signalmax - signalmin) * 0.75
 
         dmin = 100000000000
         dminpos = -1
