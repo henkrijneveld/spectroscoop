@@ -13,6 +13,7 @@ class Spectrum:
         self.calibration = calib   # calibration of the x-axis: dictionary with pixel -> wavelength pairs
         self.dirty = True       # wavelengths and intentisity are not computed at the moment
         self.name = name
+        self.mergers = 0        # number of merged spectra
 
     def setName(self, name):
         self.name = name
@@ -22,12 +23,18 @@ class Spectrum:
 
     def setSpectrumimg(self, img):
         self.dirty = True
+        self.mergers += 1
         height, width = img.shape[:2]
         self.spectrumimg = np.zeros((height, width, 3), dtype = int)
+#        for i in range(0, 4):
+#            self.spectrumimg[:,215+i,:] = 10
+#            self.spectrumimg[:,587+i,:] = 10
+
         self.spectrumimg += img
 
     def mergeSpectrumimg(self, img):
         self.dirty = True
+        self.mergers += 1
         if self.spectrumimg is None:
             raise ValueError("Trying to merge to uninitialized image")
         self.spectrumimg += img
@@ -88,6 +95,10 @@ class Spectrum:
         self.wavelengths = np.zeros(len(self.rawspectrum))
         for i in range(0, len(self.wavelengths)):
             self.wavelengths[i] = coef * i + offset
+#            self.wavelengths[i] = i
+
+    def getMergers(self):
+        return self.mergers
 
 if __name__ == '__main__':
     spectrum = np.full(20, 10)

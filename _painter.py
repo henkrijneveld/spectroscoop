@@ -29,7 +29,9 @@ class Painter:
 
     def saveRawInput(self):
         fname = "spectra/" + self.spectrum.getName() + "-rawinput.png"
-        cv2.imwrite(fname, self.spectrum.getSpectrumimg())
+        spec = self.spectrum.getSpectrumimg()
+        spec[:,:,:] = spec[:,:,:] / self.spectrum.getMergers()
+        cv2.imwrite(fname, spec)
 
     def _paint(self, wave, intensity):
         img = self._makepaint(wave, intensity)
@@ -51,8 +53,8 @@ class Painter:
         # start at zero, max low, max high, end at zero
         violet = [0, 0, 350, 470] # actually red
         blue = [0, 0, 483, 590]
-        green = [420, 497, 608, 710]
-        red = [520, 612, 780, 1200]
+        green = [420, 497, 600, 662]
+        red = [520, 602, 780, 1200]
 
         R = self._getValue(wavelength, violet) + self._getValue(wavelength, red)
         G = self._getValue(wavelength, green)

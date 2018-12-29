@@ -64,6 +64,7 @@ class Collapser:
             if (d < dmin):
                 dmin = d
                 dminpos = step
+        dminpos = 7
         return dminpos
 
     #
@@ -87,4 +88,6 @@ class Collapser:
             if (totals[i] >= threshold):
                 maxheight = i
                 break
+        if minheight >= maxheight:
+            raise ValueError("Black image taken")
         return img[minheight:maxheight,:]

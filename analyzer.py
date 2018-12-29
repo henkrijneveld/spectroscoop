@@ -11,9 +11,9 @@ from _collapser import Collapser
 def run():
     # todo : echt calibreren op 589 nm lijn keukenzout in kaarslicht
 
-    s = Spectrum("kunstlicht-multicap")
+    s = Spectrum("ipadwit")
 
-    Capturer(s).capture(25) # multicapture parameter
+    Capturer(s).capture(5) # multicapture parameter
 
     Collapser(s).collapse()
 
