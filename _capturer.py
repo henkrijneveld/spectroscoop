@@ -9,6 +9,16 @@ class Capturer:
         self.spectrum = spectrum
         self.spectrum.setCalibration(self.config.calibration)
 
+    def readFromFile(self, name):
+        img = cv2.imread(name)
+        img = img[self.config.bottomh:self.config.toph, self.config.bottomw:self.config.topw]
+
+        cv2.imshow('image', img)
+        if self.spectrum.getSpectrumimg() is None:
+            self.spectrum.setSpectrumimg(img)
+        else:
+            self.spectrum.mergeSpectrumimg(img)
+
     def capture(self, nr = 1):
         for dev in range(1, 10):
             cap = cv2.VideoCapture(dev)
