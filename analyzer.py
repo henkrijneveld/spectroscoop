@@ -1,6 +1,7 @@
 import sys
 import os
 import numpy as np
+import cv2
 from _plotter import Plotter
 from _spectrum import Spectrum
 from _painter import Painter
@@ -14,7 +15,8 @@ def run():
     s = Spectrum("tlbalk")
 
 #    Capturer(s).capture(5) # multicapture parameter
-    Capturer(s).readFromFile("newspectra/tl.jpg")
+    Capturer(s).readFromFile("newspectra/fibre.jpg")
+    s.showSpectrumimg()
 
     Collapser(s).collapse()
 

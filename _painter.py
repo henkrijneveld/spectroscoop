@@ -35,9 +35,8 @@ class Painter:
 
     def _paint(self, wave, intensity):
         img = self._makepaint(wave, intensity)
-        cv2.imshow(self.spectrum.getName(), img)
-        cv2.waitKey(0)
-        cv2.destroyWindow(self.spectrum.getName())
+        cv2.imshow(self.spectrum.getName() + " !PRESS KEY TO CONTINUE!", img)
+        cv2.waitKey(0) # wait 1 ms and flush image to screen
 
     def _makepaint(self, wave, intensity):
         img = np.zeros(shape=(self.height, len(wave)), dtype=('u1', 3))

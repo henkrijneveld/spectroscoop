@@ -12,12 +12,13 @@ class Capturer:
     def readFromFile(self, name):
         img = cv2.imread(name)
         img = img[self.config.bottomh:self.config.toph, self.config.bottomw:self.config.topw]
+        imggray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # to gray scale
+        imggray = cv2.cvtColor(imggray, cv2.COLOR_GRAY2BGR) # to gray scale
 
-        cv2.imshow('image', img)
         if self.spectrum.getSpectrumimg() is None:
-            self.spectrum.setSpectrumimg(img)
+            self.spectrum.setSpectrumimg(imggray)
         else:
-            self.spectrum.mergeSpectrumimg(img)
+            self.spectrum.mergeSpectrumimg(imggray)
 
     def capture(self, nr = 1):
         for dev in range(1, 10):

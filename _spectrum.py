@@ -1,9 +1,10 @@
 import sys
+import cv2
 import numpy as np
 
 class Spectrum:
     def __init__(self, name = "test", spectrumimg = None, rawspectrum = None, calib = None):
-        self.spectrumimg = spectrumimg   # imahe of a spectrum in rgb values
+        self.spectrumimg = spectrumimg   # image of a spectrum in rgb values
         self.rawspectrum = rawspectrum   # numpy array of ints with uncalibrated wavelength in x-axis
                                 # not-normalized intensity in y-axis
         self.wavelengths = []   # numpy array of floats, with the wavelength value in nm of the corresponding
@@ -29,8 +30,12 @@ class Spectrum:
 #        for i in range(0, 4):
 #            self.spectrumimg[:,215+i,:] = 10
 #            self.spectrumimg[:,587+i,:] = 10
-
         self.spectrumimg += img
+        i = 5
+
+    def showSpectrumimg(self):
+        cv2.imshow("Current image", np.array(self.spectrumimg, dtype = np.uint8 ))
+        cv2.waitKey(10) # wait 1 ms and flush image to screen
 
     def mergeSpectrumimg(self, img):
         self.dirty = True
