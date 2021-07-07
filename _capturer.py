@@ -12,8 +12,8 @@ class Capturer:
     def readFromFile(self, name):
         img = cv2.imread(name)
         img = img[self.config.bottomh:self.config.toph, self.config.bottomw:self.config.topw]
-        imggray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) # to gray scale
-        imggray = cv2.cvtColor(imggray, cv2.COLOR_GRAY2BGR) # to gray scale
+        imggray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY) # to gray scale
+        imggray = cv2.cvtColor(imggray, cv2.COLOR_GRAY2RGB) # to gray scale
 
         if self.spectrum.getSpectrumimg() is None:
             self.spectrum.setSpectrumimg(imggray)

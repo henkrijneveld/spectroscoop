@@ -15,7 +15,7 @@ def run():
     s = Spectrum("tlbalk")
 
 #    Capturer(s).capture(5) # multicapture parameter
-    Capturer(s).readFromFile("newspectra/fibre.jpg")
+    Capturer(s).readFromFile("newspectra/tl.jpg")
     s.showSpectrumimg()
 
     Collapser(s).collapse()
